@@ -8,11 +8,11 @@ multiplePredicateComprehension = [ x | x <- [10..20], x /= 13, x /= 15, x /= 19]
 
 multiListComprehension'decardeanProduct = [x * y | x <- [1..10], y <- [13..22], x * y > 50]
 
-nouns = ["hobo","frog","pope"]
-
 adjectives = ["lazy","grouchy","scheming"]
+nouns = ["hobo","frog","pope"]
+foos = ["foo", "bar", "baz"]
 
-combinationOfNounsAndAdjectives = [adjective ++ " " ++ noun | adjective <- adjectives, noun <- nouns]
+combinationOfNounsAndAdjectives = [[adjective, noun, foo] | adjective <- adjectives, noun <- nouns, foo <- foos]
 
 length' xs = sum [1 | _ <- xs]
 
