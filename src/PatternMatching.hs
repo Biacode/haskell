@@ -85,11 +85,57 @@ max' a b
     | a > b     = a
     | otherwise = b
 
-max' :: Ord a => a -> a -> a
-max' a b | a > b = a | otherwise = b
-
-myComparer :: (Ord a) => a -> a -> Ord
-a `myComparer` b
+myCompare :: (Ord a) => a -> a -> Ordering
+a `myCompare` b
     | a > b = GT
     | a == b = EQ
     | otherwise = LT
+
+bmiTellWithWhere :: (RealFloat a) => a -> a -> String
+bmiTellWithWhere weight height
+    | bmi <= skinny = "skynny"
+    | bmi <= normal = "normal"
+    | bmi <= fat = "fat"
+    | otherwise = "whale"
+    where bmi = weight / height ^ 2
+          skinny = 18.5
+          normal = 25.0
+          fat = 30.0
+--           (skinny, normal, fat) = (18.5, 25.0, 30.0)
+
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ ". " ++ [l] ++ "."
+    where (f:_) = firstname
+          (l:_) = lastname
+
+-- Highlight
+-- computation with where containing function
+-- pattern matching
+-- and for comprehension
+calcBmis :: (RealFloat a) => [(a, a)] -> [a]
+calcBmis xs = [bmi w h | (w, h) <- xs]
+    where bmi weight height = weight / height ^ 2
+
+cylinder :: (RealFloat a) => a -> a -> a
+cylinder r h =
+    let sideArea = 2 * pi * r * h
+        topArea = pi * r ^ 2
+    in sideArea + 2 * topArea
+
+withLet :: Integer
+withLet = 4 * (let a = 9 in a + 1) + 2
+
+withLet2 :: [(Integer, Integer, Integer)]
+withLet2 = [let square x = x * x in (square 5, square 3, square 2)]
+
+withLet3 :: (Integer, String)
+withLet3 = (let a = 100; b = 200; c = 300 in a*b*c, let foo="Hey "; bar = "there!" in foo ++ bar)
+
+withLet4 :: Integer
+withLet4 = (let (a,b,c) = (1,2,3) in a+b+c) * 100
+
+calcBmis2 :: (RealFloat a) => [(a, a)] -> [a]
+calcBmis2 xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2]
+
+-- calcBmisForFat :: (RealFloat a) => [(a, a)] -> [a]
+calcBmisForFat xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2, bmi >= 25.0]
